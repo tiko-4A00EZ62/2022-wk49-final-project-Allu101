@@ -1,0 +1,20 @@
+{
+  "name": "2022-wk49-final-project-allu101",
+  "version": "1.0.0",
+  "description": "Most of us want to know where our money goes. You now have the chance to create a solution to that question. Create an application for tracking your personal expenses.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Allu101.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Allu101/issues"
+  },
+  "homepage": "https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Allu101#readme"
+}
