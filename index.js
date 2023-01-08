@@ -1,18 +1,21 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-require('dotenv').config();
-
-const expenseRouter = require('./routes/expense');
-
-const app = express();
-
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-
-app.use('/api/expense', expenseRouter);
+const app = require('./app');
+const connection = require('./db/connection');
 
 const PORT = 5000;
 
 app.listen(PORT, () => {
   console.log(`Backend is listening on PORT ${PORT}`);
 });
+
+/*Create table SQL query:
+CREATE TABLE expenses (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  date TIMESTAMP NOT NULL,
+  amount INT NOT NULL,
+  category VARCHAR(50) NOT NULL,
+  shop VARCHAR(40) NOT NULL);
+  
+INSERT DATA:
+INSERT INTO expenses (date, amount, category, shop) VALUES ("2022-01-08 15:41:00", 35, "food", "citymarket");
+INSERT INTO expenses (date, amount, category, shop) VALUES ("2022-02-18 15:41:00", 52, "food", "prisma");
+*/

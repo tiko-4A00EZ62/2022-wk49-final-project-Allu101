@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Allu101/issues"
   },
-  "homepage": "https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Allu101#readme"
+  "homepage": "https://github.com/tiko-4A00EZ62/2022-wk49-final-project-Allu101#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "dotenv": "^16.0.3",
+    "mysql": "^2.18.1"
+  }
 }

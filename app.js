@@ -9,6 +9,6 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/api/expense', expenseRouter);
+app.use('/api/expenses', expenseRouter);
 
 module.exports = app;
