@@ -1,5 +1,5 @@
-const expense = require('../models/expense');
-//const Joi = require('joi');
+const expenses = require('../models/expenses');
+const Joi = require('joi');
 
 /*const createInvoice = async (req, res) => {
   const schema = Joi.object({
@@ -49,40 +49,34 @@ const deleteById = async (req, res) => {
 
 const getAllExpenses = async (req, res) => {
   try {
-    const response = await expense.findAll();
+    const response = await expenses.getAll();
     if (response) {
-      const totalSum = response.reduce(
-        (total, expense) => total + expense.amount,
-        0
-      );
-      res.send({
-        data: response,
-        total: totalSum,
-      });
+      res.send(returnExpensesAndTotalSumJSON(response));
     }
   } catch (e) {
     res.sendStatus(500);
   }
 };
 
-/*const getById = async (req, res) => {
+const getById = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const response = await electricity.findById(id);
+    const response = await expenses.getByMonthId(id);
     if (response) {
-      res.send(response);
+      res.send(returnExpensesAndTotalSumJSON(response));
     }
   } catch (e) {
     res.sendStatus(500);
   }
 };
 
-const updateInvoice = async (req, res) => {
+const updateExpense = async (req, res) => {
   const schema = Joi.object({
     id: Joi.number().integer().required(),
-    month: Joi.string().min(4).required(),
-    kwh: Joi.number().min(1).required(),
-    cost: Joi.number().min(1).required(),
+    date: Joi.string().min(10).required(),
+    amount: Joi.number().required(),
+    category: Joi.string().min(1).required(),
+    shop: Joi.string().min(1).required(),
   });
   const { error } = schema.validate(req.body);
   if (error) {
@@ -90,26 +84,38 @@ const updateInvoice = async (req, res) => {
     res.status(400).send(error.details[0].message);
     return;
   }
-  const invoice = {
+  const expense = {
     id: req.body.id,
-    month: req.body.month,
-    kwh: req.body.kwh,
-    cost: req.body.cost,
+    date: req.body.date,
+    amount: req.body.amount,
+    category: req.body.category,
+    shop: req.body.shop,
   };
   try {
-    const response = await electricity.update(invoice);
+    const response = await expenses.updateExpense(expense);
     if (response) {
-      res.send(invoice);
+      res.send(expense);
     }
   } catch (e) {
-    res.sendStatus(500);
+    res.status(500).send(e.message);
   }
-};*/
+};
+
+const returnExpensesAndTotalSumJSON = (response) => {
+  const totalSum = response.reduce(
+    (total, expense) => total + expense.amount,
+    0
+  );
+  return {
+    data: response,
+    total: totalSum,
+  };
+};
 
 module.exports = {
   /*createInvoice,
   deleteById,*/
   getAllExpenses,
-  /*getById,
-  updateInvoice,*/
+  getById,
+  updateExpense,
 };

@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 
-const expenseRouter = require('./routes/expense');
+const expenseRouter = require('./routes/expenses');
 
 const app = express();
 

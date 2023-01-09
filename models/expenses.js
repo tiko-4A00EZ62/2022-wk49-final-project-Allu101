@@ -24,7 +24,8 @@ const connectionFunctions = {
         resolve(result);
       });
     }),*/
-  findAll: () =>
+
+  getAll: () =>
     new Promise((resolve, reject) => {
       connection.query('SELECT * FROM expenses', (err, result) => {
         if (err) {
@@ -33,11 +34,29 @@ const connectionFunctions = {
         resolve(result);
       });
     }),
-  /*findById: (id) =>
+  getByMonthId: (id) =>
     new Promise((resolve, reject) => {
+      const selectQuery = 'SELECT * FROM expenses WHERE MONTH(date)=?;';
+      connection.query(selectQuery, id, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+  updateExpense: (expense) =>
+    new Promise((resolve, reject) => {
+      const updateQuery =
+        'UPDATE expenses SET date = ?, amount = ?, category = ?, shop = ? WHERE id = ?;';
       connection.query(
-        'SELECT * FROM electricity WHERE id=?',
-        id,
+        updateQuery,
+        [
+          expense.date,
+          expense.amount,
+          expense.category,
+          expense.shop,
+          expense.id,
+        ],
         (err, result) => {
           if (err) {
             reject(err);
@@ -46,21 +65,6 @@ const connectionFunctions = {
         }
       );
     }),
-  update: (invoice) =>
-    new Promise((resolve, reject) => {
-      const updateQuery =
-        'UPDATE electricity SET month = ?, kwh = ?, cost = ? WHERE id = ?;';
-      connection.query(
-        updateQuery,
-        [invoice.month, invoice.kwh, invoice.cost, invoice.id],
-        (err, result) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(result);
-        }
-      );
-    }),*/
 };
 
 module.exports = connectionFunctions;

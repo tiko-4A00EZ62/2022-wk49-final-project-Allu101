@@ -4,15 +4,15 @@ const {
   deleteById,
   getAllExpenses,
   getById,
-  updateInvoice,
-} = require('../controllers/expense');
+  updateExpense,
+} = require('../controllers/expenses');
 
 const router = express.Router();
 
 /*router.post('/', createInvoice);
 router.delete('/:id', deleteById);*/
 router.get('/', getAllExpenses);
-/*router.get('/:id', getById);
-router.put('/', updateInvoice);*/
+router.get('/month/:id', getById);
+router.put('/', updateExpense);
 
 module.exports = router;
