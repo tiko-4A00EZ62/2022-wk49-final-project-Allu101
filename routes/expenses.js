@@ -1,6 +1,6 @@
 const express = require('express');
 const {
-  createInvoice,
+  createExpense,
   deleteById,
   getAllExpenses,
   getById,
@@ -9,8 +9,8 @@ const {
 
 const router = express.Router();
 
-/*router.post('/', createInvoice);
-router.delete('/:id', deleteById);*/
+router.post('/', createExpense);
+//router.delete('/:id', deleteById);
 router.get('/', getAllExpenses);
 router.get('/month/:id', getById);
 router.put('/', updateExpense);

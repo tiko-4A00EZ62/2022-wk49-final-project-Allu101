@@ -1,11 +1,12 @@
 const expenses = require('../models/expenses');
 const Joi = require('joi');
 
-/*const createInvoice = async (req, res) => {
+const createExpense = async (req, res) => {
   const schema = Joi.object({
-    month: Joi.string().required(),
-    kwh: Joi.number().min(1).required(),
-    cost: Joi.number().min(1).required(),
+    date: Joi.string().min(10).required(),
+    amount: Joi.number().required(),
+    category: Joi.string().min(1).required(),
+    shop: Joi.string().min(1).required(),
   });
   const { error } = schema.validate(req.body);
   if (error) {
@@ -13,23 +14,23 @@ const Joi = require('joi');
     res.status(400).send(error.details[0].message);
     return;
   }
-  const invoice = {
-    month: req.body.month,
-    kwh: req.body.kwh,
-    cost: req.body.cost,
+  const expense = {
+    date: req.body.date,
+    amount: req.body.amount,
+    category: req.body.category,
+    shop: req.body.shop,
   };
   try {
-    const response = await electricity.create(invoice);
+    const response = await expenses.create(expense);
     if (response) {
-      invoice.id = response.insertId;
-      res.status(201).send(invoice);
+      res.status(201).send(expense);
     }
   } catch (e) {
     res.sendStatus(500);
   }
 };
 
-const deleteById = async (req, res) => {
+/*const deleteById = async (req, res) => {
   const id = parseInt(req.params.id, 10);
   try {
     const result = await electricity.findById(id);
@@ -113,8 +114,8 @@ const returnExpensesAndTotalSumJSON = (response) => {
 };
 
 module.exports = {
-  /*createInvoice,
-  deleteById,*/
+  createExpense,
+  //deleteById,
   getAllExpenses,
   getById,
   updateExpense,
