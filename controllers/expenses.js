@@ -54,9 +54,16 @@ const deleteById = async (req, res) => {
 
 const getAllExpenses = async (req, res) => {
   try {
-    const response = await expenses.getAll();
+    let response;
+    if (req.query.shop != undefined) {
+      response = await expenses.getAllByShop(req.query.shop);
+    } else {
+      response = await expenses.getAll();
+    }
+
     if (response) {
-      res.send(returnExpensesAndTotalSumJSON(response));
+      const filteredResponse = getFilterResponse(req, response);
+      res.send(getExpensesAndTotalSumJSON(filteredResponse));
     }
   } catch (e) {
     res.sendStatus(500);
@@ -66,9 +73,10 @@ const getAllExpenses = async (req, res) => {
 const getById = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const response = await expenses.getByMonthId(id);
+    const response = await expenses.getAllByMonthId(id);
     if (response) {
-      res.send(returnExpensesAndTotalSumJSON(response));
+      const filteredResponse = getFilterResponse(req, response);
+      res.send(getExpensesAndTotalSumJSON(filteredResponse));
     }
   } catch (e) {
     res.sendStatus(500);
@@ -106,7 +114,20 @@ const updateExpense = async (req, res) => {
   }
 };
 
-const returnExpensesAndTotalSumJSON = (response) => {
+const getFilterResponse = (req, response) => {
+  let output = response;
+  if (req.query.sortAmount != undefined) {
+    output = response.sort((a, b) => {
+      a.amount - b.amount;
+    });
+    if (req.query.sortAmount === 'desc') {
+      output.reverse();
+    }
+  }
+  return output;
+};
+
+const getExpensesAndTotalSumJSON = (response) => {
   const totalSum = response.reduce(
     (total, expense) => total + expense.amount,
     0

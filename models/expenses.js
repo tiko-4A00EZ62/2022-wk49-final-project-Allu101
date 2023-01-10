@@ -43,10 +43,20 @@ const connectionFunctions = {
         }
       );
     }),
-  getByMonthId: (id) =>
+  getAllByMonthId: (id) =>
     new Promise((resolve, reject) => {
       const selectQuery = 'SELECT * FROM expenses WHERE MONTH(date)=?;';
       connection.query(selectQuery, id, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+  getAllByShop: (shopName) =>
+    new Promise((resolve, reject) => {
+      const selectQuery = 'SELECT * FROM expenses WHERE shop=?;';
+      connection.query(selectQuery, shopName, (err, result) => {
         if (err) {
           reject(err);
         }
