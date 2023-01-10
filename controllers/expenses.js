@@ -21,7 +21,7 @@ const createExpense = async (req, res) => {
     shop: req.body.shop,
   };
   try {
-    const response = await expenses.create(expense);
+    const response = await expenses.createExpense(expense);
     if (response) {
       res.status(201).send(expense);
     }
@@ -30,23 +30,23 @@ const createExpense = async (req, res) => {
   }
 };
 
-/*const deleteById = async (req, res) => {
+const deleteById = async (req, res) => {
   const id = parseInt(req.params.id, 10);
   try {
-    const result = await electricity.findById(id);
+    const result = await expenses.getById(id);
     if (result.length === 0) {
       res.status(404).send('Not Found');
       return;
     }
 
-    const response = await electricity.deleteById(id);
+    const response = await expenses.deleteExpense(id);
     if (response) {
-      res.status(200).send('Invoice deleted');
+      res.status(200).send('Expense deleted');
     }
   } catch (e) {
     res.sendStatus(500);
   }
-};*/
+};
 
 const getAllExpenses = async (req, res) => {
   try {
@@ -115,7 +115,7 @@ const returnExpensesAndTotalSumJSON = (response) => {
 
 module.exports = {
   createExpense,
-  //deleteById,
+  deleteById,
   getAllExpenses,
   getById,
   updateExpense,

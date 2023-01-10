@@ -23,3 +23,7 @@ Content-Type: application/json; charset=utf-8
   "category": "laptop",
   "shop": "Verkkokauppa.com"
 }
+
+###
+
+DELETE http://localhost:5000/api/expenses/2

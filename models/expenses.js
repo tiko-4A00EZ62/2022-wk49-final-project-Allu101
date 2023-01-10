@@ -1,7 +1,7 @@
 const connection = require('../db/connection');
 
 const connectionFunctions = {
-  create: (expense) =>
+  createExpense: (expense) =>
     new Promise((resolve, reject) => {
       connection.query('INSERT INTO expenses SET ?', expense, (err, result) => {
         if (err) {
@@ -10,16 +10,16 @@ const connectionFunctions = {
         resolve(result);
       });
     }),
-  /*deleteById: (id) =>
+  deleteExpense: (id) =>
     new Promise((resolve, reject) => {
-      const deleteQuery = 'DELETE FROM electricity WHERE id=?;';
+      const deleteQuery = 'DELETE FROM expenses WHERE id=?;';
       connection.query(deleteQuery, id, (err, result) => {
         if (err) {
           reject(err);
         }
         resolve(result);
       });
-    }),*/
+    }),
 
   getAll: () =>
     new Promise((resolve, reject) => {
@@ -29,6 +29,19 @@ const connectionFunctions = {
         }
         resolve(result);
       });
+    }),
+  getById: (id) =>
+    new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM expenses WHERE id=?',
+        id,
+        (err, result) => {
+          if (err) {
+            reject(err);
+          }
+          resolve(result);
+        }
+      );
     }),
   getByMonthId: (id) =>
     new Promise((resolve, reject) => {
