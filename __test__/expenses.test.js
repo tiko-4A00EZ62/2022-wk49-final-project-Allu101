@@ -122,59 +122,65 @@ describe('Expenses endoints', () => {
     });*/
   });
 
-  /*describe('PUT expenses endpoint', () => {
-    let postId;
+  describe('PUT expenses endpoint', () => {
+    let putEndpointId;
     beforeAll(async () => {
-      const invoice = {
-        month: '2022-06-01',
-        kwh: '1002.301',
-        cost: '91',
+      const expense = {
+        id: 40,
+        date: '2023-06-18 10:09:00',
+        amount: 200,
+        category: 'Bed',
+        shop: 'Ikea',
       };
       const postResponse = await request(app)
         .post('/api/expenses')
         .set('Accept', 'application/json')
-        .send(invoice);
-      postId = postResponse.body.id;
+        .send(expense);
+      putEndpointId = postResponse.body.id;
     });
 
     test('should update the expense with the id', async () => {
       const invoice = {
-        id: postId,
-        month: '2022-06-01',
-        kwh: '912.415',
-        cost: '87',
+        id: putEndpointId,
+        date: '2023-06-18 10:09:00',
+        amount: 199,
+        category: 'Bed',
+        shop: 'Ikea',
       };
       const response = await request(app)
         .put('/api/expenses')
         .set('Accept', 'application/json')
         .send(invoice);
       expect(response.status).toEqual(200);
-      expect(response.body.id).toEqual(postId);
-      expect(response.body.kwh).toEqual('912.415');
-      expect(response.body.cost).toEqual('87');
+      expect(response.body.id).toEqual(putEndpointId);
+      expect(response.body.date).toEqual('2023-06-18 10:09:00');
+      expect(response.body.amount).toEqual(199);
     });
 
-    test('should not allow empty month', async () => {
+    test('should not allow too short date (min 10 char)', async () => {
       const invoice = {
-        id: postId,
-        month: '',
-        kwh: '912.415',
-        cost: '87',
+        id: putEndpointId,
+        date: '2023-3-14',
+        amount: 199,
+        category: 'Bed',
+        shop: 'Ikea',
       };
       const response = await request(app)
         .put('/api/expenses')
         .set('Accept', 'application/json')
         .send(invoice);
       expect(response.status).toEqual(400);
-      expect(response.text).toEqual('"month" is not allowed to be empty');
+      expect(response.text).toEqual(
+        '"date" length must be at least 10 characters long'
+      );
     });
 
     afterAll(async () => {
       await request(app)
-        .delete(`/api/expenses/${postId}`)
+        .delete(`/api/expenses/${putEndpointId}`)
         .set('Accept', 'application/json');
     });
-  });*/
+  });
 
   describe('DELETE expenses endpoint', () => {
     test('should delete the expense by id', async () => {
