@@ -4,7 +4,7 @@
   "description": "Most of us want to know where our money goes. You now have the chance to create a solution to that question. Create an application for tracking your personal expenses.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --forceExit --verbose=true"
   },
   "repository": {
     "type": "git",
@@ -22,5 +22,10 @@
     "dotenv": "^16.0.3",
     "joi": "^17.7.0",
     "mysql": "^2.18.1"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.3.1",
+    "jest": "^29.3.1",
+    "supertest": "^6.3.1"
   }
 }

@@ -3,6 +3,7 @@ const Joi = require('joi');
 
 const createExpense = async (req, res) => {
   const schema = Joi.object({
+    id: Joi.number().integer(),
     date: Joi.string().min(10).required(),
     amount: Joi.number().required(),
     category: Joi.string().min(1).required(),
@@ -20,6 +21,9 @@ const createExpense = async (req, res) => {
     category: req.body.category,
     shop: req.body.shop,
   };
+  if (req.body.id != undefined) {
+    expense.id = req.body.id;
+  }
   try {
     const response = await expenses.createExpense(expense);
     if (response) {
