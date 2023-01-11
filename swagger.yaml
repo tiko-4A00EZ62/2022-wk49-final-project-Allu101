@@ -12,6 +12,7 @@ paths:
     get:
       tags:
         - expenses
+      summary: Get expenses
       description: Returns a array of expenses
       responses:
         '200':
@@ -30,6 +31,62 @@ paths:
                 items:
                   type: array
 
+        '500':
+          $ref: '#/components/responses/500Error'
+    post:
+      tags:
+        - expenses
+      summary: Create a new expense
+      description: Create a new expense
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                amount:
+                  type: integer
+                category:
+                  type: string
+                shop:
+                  type: string
+      responses:
+        '201':
+          description: Created succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '500':
+          $ref: '#/components/responses/500Error'
+
+    put:
+      tags:
+        - expenses
+      summary: Update an existing expense
+      description: Update an existing expense
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Expense'
+      responses:
+        '200':
+          description: Updated succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Expense'
+        '400':
+          $ref: '#/components/responses/400Error'
+        '404':
+          $ref: '#/components/responses/404Error'
         '500':
           $ref: '#/components/responses/500Error'
 components:
@@ -54,7 +111,7 @@ components:
         text/plain:
           schema:
             type: string
-            example: Invalid value
+            example: <property> is required | <date> length must be at least 10 characters long
     404Error:
       description: Not found
       content:
