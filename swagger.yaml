@@ -14,6 +14,29 @@ paths:
         - expenses
       summary: Get expenses
       description: Returns a array of expenses
+      parameters:
+        - name: category
+          in: query
+          description: Category of expense
+          required: false
+          schema:
+            type: string
+        - name: shop
+          in: query
+          description: Shop of expense
+          required: false
+          schema:
+            type: string
+        - name: sortAmount
+          in: query
+          description: Sorts expenses order
+          required: false
+          schema:
+            type: string
+            default: asc
+            enum:
+              - asc
+              - desc
       responses:
         '200':
           description: Successful response
