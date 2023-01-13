@@ -62,7 +62,7 @@ const getAllExpenses = async (req, res) => {
     }
 
     if (response) {
-      const filteredResponse = filterResponse(req, response);
+      const filteredResponse = sortResponse(req, response);
       res.send(getDataAndTotalJSON(filteredResponse));
     }
   } catch (e) {
@@ -79,7 +79,7 @@ const getAllExpensesByMonth = async (req, res) => {
   try {
     const response = await expenses.getAllExpensesByMonthId(id);
     if (response) {
-      const filteredResponse = filterResponse(req, response);
+      const filteredResponse = sortResponse(req, response);
       res.send(getDataAndTotalJSON(filteredResponse));
     }
   } catch (e) {
@@ -118,14 +118,12 @@ const updateExpense = async (req, res) => {
   }
 };
 
-const filterResponse = (req, response) => {
+const sortResponse = (req, response) => {
   let output = response;
   if (req.query.sortAmount != undefined) {
-    output = response.sort((a, b) => {
-      a.amount - b.amount;
-    });
+    output = response.sort((e1, e2) => (e1.amount > e2.amount ? 1 : -1));
     if (req.query.sortAmount === 'desc') {
-      output.reverse();
+      response.sort((e1, e2) => (e1.amount < e2.amount ? 1 : -1));
     }
   }
   return output;

@@ -3,6 +3,57 @@ const request = require('supertest');
 const app = require('../app');
 const connection = require('../db/connection');
 
+const expenses = {
+  data: [
+    {
+      id: 1,
+      date: '2022-01-08T13:41:00.000Z',
+      amount: 35,
+      category: 'food',
+      shop: 'citymarket',
+    },
+    {
+      id: 3,
+      date: '2023-03-24T08:19:00.000Z',
+      amount: 1500,
+      category: 'laptop',
+      shop: 'Verkkokauppa.com',
+    },
+    {
+      id: 21,
+      date: '2023-06-24T09:19:00.000Z',
+      amount: 1300,
+      category: 'PC',
+      shop: 'Verkkokauppa.com',
+    },
+  ],
+  total: 2835,
+};
+
+const expensesSortedByAmountAsc = [
+  {
+    id: 1,
+    date: '2022-01-08T13:41:00.000Z',
+    amount: 35,
+    category: 'food',
+    shop: 'citymarket',
+  },
+  {
+    id: 21,
+    date: '2023-06-24T09:19:00.000Z',
+    amount: 1300,
+    category: 'PC',
+    shop: 'Verkkokauppa.com',
+  },
+  {
+    id: 3,
+    date: '2023-03-24T08:19:00.000Z',
+    amount: 1500,
+    category: 'laptop',
+    shop: 'Verkkokauppa.com',
+  },
+];
+
 describe('Expenses endoints', () => {
   describe('GET expenses endoint', () => {
     test('should return 200', (done) => {
@@ -16,33 +67,24 @@ describe('Expenses endoints', () => {
 
       expect(response.status).toEqual(200);
       expect(response.headers['content-type']).toMatch(/json/);
-      expect(response.body).toEqual(
-        expect.objectContaining({
-          data: expect.arrayContaining([
-            expect.objectContaining({
-              date: '2022-01-08T13:41:00.000Z',
-              amount: 35,
-              category: 'food',
-              shop: 'citymarket',
-            }),
-            expect.objectContaining({
-              date: '2023-03-24T10:19:00.000Z',
-              amount: 700,
-              category: 'laptop',
-              shop: 'Verkkokauppa.com',
-            }),
-            expect.objectContaining({
-              date: '2023-06-24T09:19:00.000Z',
-              amount: 1300,
-              category: 'PC',
-              shop: 'Verkkokauppa.com',
-            }),
-          ]),
-          total: 2035,
-        })
-      );
+      expect(response.body).toEqual(expenses);
+    });
+
+    test('should check that expenses order is ascending', async () => {
+      const response = await request(app).get('/api/expenses?sortAmount=asc');
+
+      expect(response.status).toEqual(200);
+      expect(response.body.data).toEqual(expensesSortedByAmountAsc);
+    });
+
+    test('should check that expenses order is descending', async () => {
+      const response = await request(app).get('/api/expenses?sortAmount=desc');
+
+      expect(response.status).toEqual(200);
+      expect(response.body.data).toEqual(expensesSortedByAmountAsc.reverse());
     });
   });
+
   describe('GET expenses/month/id endoint', () => {
     test('should check that id is not greater than 12', async () => {
       const response = await request(app)
@@ -52,6 +94,7 @@ describe('Expenses endoints', () => {
       expect(response.status).toEqual(400);
       expect(response.text).toContain('id must be in between 1 and 12');
     });
+
     test('should check that id is not less than 1', async () => {
       const response = await request(app)
         .get('/api/expenses/month/0')
