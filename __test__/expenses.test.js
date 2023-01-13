@@ -43,6 +43,24 @@ describe('Expenses endoints', () => {
       );
     });
   });
+  describe('GET expenses/month/id endoint', () => {
+    test('should check that id is not greater than 12', async () => {
+      const response = await request(app)
+        .get('/api/expenses/month/13')
+        .set('Accept', 'application/json');
+
+      expect(response.status).toEqual(400);
+      expect(response.text).toContain('id must be in between 1 and 12');
+    });
+    test('should check that id is not less than 1', async () => {
+      const response = await request(app)
+        .get('/api/expenses/month/0')
+        .set('Accept', 'application/json');
+
+      expect(response.status).toEqual(400);
+      expect(response.text).toContain('id must be in between 1 and 12');
+    });
+  });
 
   describe('POST expenses endpoint', () => {
     let postEndpointId;
@@ -85,41 +103,11 @@ describe('Expenses endoints', () => {
       expect(response.status).toEqual(400);
       expect(response.text).toContain('"amount" is required');
     });
-
-    /*test('should not allow no kwh', async () => {
-      const invoice = {
-        month: '2022-05-01',
-        cost: '100',
-      };
-
-      const response = await request(app)
-        .post('/api/expenses')
-        .set('Accept', 'application/json')
-        .send(invoice);
-
-      expect(response.status).toEqual(400);
-      expect(response.text).toContain('"kwh" is required');
-    });*/
     afterAll(async () => {
       await request(app)
         .delete(`/api/expenses/${postEndpointId}`)
         .set('Accept', 'application/json');
     });
-
-    /*test('should not allow no cost', async () => {
-      const invoice = {
-        month: '2022-05-01',
-        kwh: '1100.201',
-      };
-
-      const response = await request(app)
-        .post('/api/expenses')
-        .set('Accept', 'application/json')
-        .send(invoice);
-
-      expect(response.status).toEqual(400);
-      expect(response.text).toContain('"cost" is required');
-    });*/
   });
 
   describe('PUT expenses endpoint', () => {

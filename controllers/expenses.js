@@ -72,6 +72,10 @@ const getAllExpenses = async (req, res) => {
 
 const getAllExpensesByMonth = async (req, res) => {
   const id = parseInt(req.params.id);
+  if (id < 1 || id > 12) {
+    res.status(400).send('id must be in between 1 and 12');
+    return;
+  }
   try {
     const response = await expenses.getAllExpensesByMonthId(id);
     if (response) {
