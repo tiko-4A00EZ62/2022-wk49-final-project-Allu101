@@ -3,7 +3,8 @@ const connection = require('../db/connection');
 const connectionFunctions = {
   createExpense: (expense) =>
     new Promise((resolve, reject) => {
-      connection.query('INSERT INTO expenses SET ?', expense, (err, result) => {
+      const createQuery = 'INSERT INTO expenses SET ?';
+      connection.query(createQuery, expense, (err, result) => {
         if (err) {
           reject(err);
         }
@@ -21,29 +22,17 @@ const connectionFunctions = {
       });
     }),
 
-  getAll: () =>
+  getAllExpenses: () =>
     new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM expenses', (err, result) => {
+      const selectQuery = 'SELECT * FROM expenses';
+      connection.query(selectQuery, (err, result) => {
         if (err) {
           reject(err);
         }
         resolve(result);
       });
     }),
-  getById: (id) =>
-    new Promise((resolve, reject) => {
-      connection.query(
-        'SELECT * FROM expenses WHERE id=?',
-        id,
-        (err, result) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(result);
-        }
-      );
-    }),
-  getAllByMonthId: (id) =>
+  getAllExpensesByMonthId: (id) =>
     new Promise((resolve, reject) => {
       const selectQuery = 'SELECT * FROM expenses WHERE MONTH(date)=?;';
       connection.query(selectQuery, id, (err, result) => {
@@ -53,10 +42,20 @@ const connectionFunctions = {
         resolve(result);
       });
     }),
-  getAllByShop: (shopName) =>
+  getAllExpensesByShop: (shopName) =>
     new Promise((resolve, reject) => {
       const selectQuery = 'SELECT * FROM expenses WHERE shop=?;';
       connection.query(selectQuery, shopName, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+  getById: (id) =>
+    new Promise((resolve, reject) => {
+      const selectQuery = 'SELECT * FROM expenses WHERE id=?';
+      connection.query(selectQuery, id, (err, result) => {
         if (err) {
           reject(err);
         }

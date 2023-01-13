@@ -56,27 +56,27 @@ const getAllExpenses = async (req, res) => {
   try {
     let response;
     if (req.query.shop != undefined) {
-      response = await expenses.getAllByShop(req.query.shop);
+      response = await expenses.getAllExpensesByShop(req.query.shop);
     } else {
-      response = await expenses.getAll();
+      response = await expenses.getAllExpenses();
     }
 
     if (response) {
-      const filteredResponse = getFilterResponse(req, response);
-      res.send(getExpensesAndTotalSumJSON(filteredResponse));
+      const filteredResponse = filterResponse(req, response);
+      res.send(getDataAndTotalJSON(filteredResponse));
     }
   } catch (e) {
     res.sendStatus(500);
   }
 };
 
-const getById = async (req, res) => {
+const getAllExpensesByMonth = async (req, res) => {
   const id = parseInt(req.params.id);
   try {
-    const response = await expenses.getAllByMonthId(id);
+    const response = await expenses.getAllExpensesByMonthId(id);
     if (response) {
-      const filteredResponse = getFilterResponse(req, response);
-      res.send(getExpensesAndTotalSumJSON(filteredResponse));
+      const filteredResponse = filterResponse(req, response);
+      res.send(getDataAndTotalJSON(filteredResponse));
     }
   } catch (e) {
     res.sendStatus(500);
@@ -114,7 +114,7 @@ const updateExpense = async (req, res) => {
   }
 };
 
-const getFilterResponse = (req, response) => {
+const filterResponse = (req, response) => {
   let output = response;
   if (req.query.sortAmount != undefined) {
     output = response.sort((a, b) => {
@@ -127,7 +127,7 @@ const getFilterResponse = (req, response) => {
   return output;
 };
 
-const getExpensesAndTotalSumJSON = (response) => {
+const getDataAndTotalJSON = (response) => {
   const totalSum = response.reduce(
     (total, expense) => total + expense.amount,
     0
@@ -142,6 +142,6 @@ module.exports = {
   createExpense,
   deleteById,
   getAllExpenses,
-  getById,
+  getAllExpensesByMonth,
   updateExpense,
 };
