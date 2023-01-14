@@ -9,6 +9,9 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.get('/health', (req, res) => {
+  res.send('OK');
+});
 app.use('/api/expenses', expenseRouter);
 
 module.exports = app;
