@@ -270,6 +270,15 @@ describe('Expenses endoints', () => {
       );
     });
 
+    test('should check that expense with id exists', async () => {
+      const response = await request(app)
+        .delete('/api/expenses/1234')
+        .set('Accept', 'application/json');
+
+      expect(response.status).toEqual(404);
+      expect(response.text).toEqual('Not Found');
+    });
+
     afterAll(async () => {
       await request(app)
         .delete(`/api/expenses/${putEndpointId}`)

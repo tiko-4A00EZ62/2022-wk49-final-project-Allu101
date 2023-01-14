@@ -84,24 +84,35 @@ const connectionFunctions = {
     }),
   updateExpense: (expense) =>
     new Promise((resolve, reject) => {
-      const updateQuery =
-        'UPDATE expenses SET date = ?, amount = ?, category = ?, shop = ? WHERE id = ?;';
-      connection.query(
-        updateQuery,
-        [
-          expense.date,
-          expense.amount,
-          expense.category,
-          expense.shop,
-          expense.id,
-        ],
-        (err, result) => {
-          if (err) {
-            reject(err);
-          }
-          resolve(result);
+      const selectQuery = 'SELECT * FROM expenses WHERE id=?';
+      connection.query(selectQuery, expense.id, (err, result) => {
+        if (err) {
+          reject(err);
         }
-      );
+        if (result.length <= 0) {
+          resolve({
+            notFound: 'Expense with given id + not found',
+          });
+        }
+        const updateQuery =
+          'UPDATE expenses SET date = ?, amount = ?, category = ?, shop = ? WHERE id = ?;';
+        connection.query(
+          updateQuery,
+          [
+            expense.date,
+            expense.amount,
+            expense.category,
+            expense.shop,
+            expense.id,
+          ],
+          (err, result) => {
+            if (err) {
+              reject(err);
+            }
+            resolve(result);
+          }
+        );
+      });
     }),
 };
 

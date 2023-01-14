@@ -117,7 +117,10 @@ const updateExpense = async (req, res) => {
   };
   try {
     const response = await expenses.updateExpense(expense);
-    if (response) {
+    if (response.notFound !== undefined) {
+      res.status(404).send('Expense with given id not found');
+      return;
+    } else {
       res.send(expense);
     }
   } catch (e) {
