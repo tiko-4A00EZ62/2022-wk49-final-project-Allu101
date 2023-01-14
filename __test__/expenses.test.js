@@ -13,6 +13,13 @@ const expenses = {
       shop: 'citymarket',
     },
     {
+      date: '2023-04-08T10:19:00.000Z',
+      id: 2,
+      amount: 70,
+      category: 'food',
+      shop: 'Lidl',
+    },
+    {
       id: 3,
       date: '2023-03-24T08:19:00.000Z',
       amount: 1500,
@@ -27,7 +34,7 @@ const expenses = {
       shop: 'Verkkokauppa.com',
     },
   ],
-  total: 2835,
+  total: 2905,
 };
 
 const expensesSortedByAmountAsc = [
@@ -37,6 +44,13 @@ const expensesSortedByAmountAsc = [
     amount: 35,
     category: 'food',
     shop: 'citymarket',
+  },
+  {
+    date: '2023-04-08T10:19:00.000Z',
+    id: 2,
+    amount: 70,
+    category: 'food',
+    shop: 'Lidl',
   },
   {
     id: 21,
@@ -50,6 +64,37 @@ const expensesSortedByAmountAsc = [
     date: '2023-03-24T08:19:00.000Z',
     amount: 1500,
     category: 'laptop',
+    shop: 'Verkkokauppa.com',
+  },
+];
+
+const expensesSortedByDateAsc = [
+  {
+    id: 1,
+    date: '2022-01-08T13:41:00.000Z',
+    amount: 35,
+    category: 'food',
+    shop: 'citymarket',
+  },
+  {
+    id: 3,
+    date: '2023-03-24T08:19:00.000Z',
+    amount: 1500,
+    category: 'laptop',
+    shop: 'Verkkokauppa.com',
+  },
+  {
+    date: '2023-04-08T10:19:00.000Z',
+    id: 2,
+    amount: 70,
+    category: 'food',
+    shop: 'Lidl',
+  },
+  {
+    id: 21,
+    date: '2023-06-24T09:19:00.000Z',
+    amount: 1300,
+    category: 'PC',
     shop: 'Verkkokauppa.com',
   },
 ];
@@ -70,18 +115,37 @@ describe('Expenses endoints', () => {
       expect(response.body).toEqual(expenses);
     });
 
-    test('should check that expenses order is ascending', async () => {
-      const response = await request(app).get('/api/expenses?sortAmount=asc');
+    describe('GET expenses?sortAmount', () => {
+      test('should check that expenses order is ascending by amount', async () => {
+        const response = await request(app).get('/api/expenses?sortAmount=asc');
 
-      expect(response.status).toEqual(200);
-      expect(response.body.data).toEqual(expensesSortedByAmountAsc);
+        expect(response.status).toEqual(200);
+        expect(response.body.data).toEqual(expensesSortedByAmountAsc);
+      });
+
+      test('should check that expenses order is descending by amount', async () => {
+        const response = await request(app).get(
+          '/api/expenses?sortAmount=desc'
+        );
+
+        expect(response.status).toEqual(200);
+        expect(response.body.data).toEqual(expensesSortedByAmountAsc.reverse());
+      });
     });
+    describe('GET expenses?sortDate', () => {
+      test('should check that expenses order is ascending by date', async () => {
+        const response = await request(app).get('/api/expenses?sortDate=asc');
 
-    test('should check that expenses order is descending', async () => {
-      const response = await request(app).get('/api/expenses?sortAmount=desc');
+        expect(response.status).toEqual(200);
+        expect(response.body.data).toEqual(expensesSortedByDateAsc);
+      });
 
-      expect(response.status).toEqual(200);
-      expect(response.body.data).toEqual(expensesSortedByAmountAsc.reverse());
+      test('should check that expenses order is descending by date', async () => {
+        const response = await request(app).get('/api/expenses?sortDate=desc');
+
+        expect(response.status).toEqual(200);
+        expect(response.body.data).toEqual(expensesSortedByDateAsc.reverse());
+      });
     });
   });
 
