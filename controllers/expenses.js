@@ -130,7 +130,12 @@ const sortResponse = (req, response) => {
   if (req.query.sortAmount != undefined) {
     output = response.sort((e1, e2) => (e1.amount > e2.amount ? 1 : -1));
     if (req.query.sortAmount === 'desc') {
-      response.sort((e1, e2) => (e1.amount < e2.amount ? 1 : -1));
+      response.reverse();
+    }
+  } else if (req.query.sortDate != undefined) {
+    output = response.sort((e1, e2) => (e1.date > e2.date ? 1 : -1));
+    if (req.query.sortDate === 'desc') {
+      response.reverse();
     }
   }
   return output;
