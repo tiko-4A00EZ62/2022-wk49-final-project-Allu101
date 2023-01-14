@@ -55,7 +55,14 @@ const deleteById = async (req, res) => {
 const getAllExpenses = async (req, res) => {
   try {
     let response;
-    if (req.query.shop != undefined) {
+    if (req.query.shop != undefined && req.query.category != undefined) {
+      response = await expenses.getAllExpensesByCategoryAndShop(
+        req.query.category,
+        req.query.shop
+      );
+    } else if (req.query.category != undefined) {
+      response = await expenses.getAllExpensesByCategory(req.query.category);
+    } else if (req.query.shop != undefined) {
       response = await expenses.getAllExpensesByShop(req.query.shop);
     } else {
       response = await expenses.getAllExpenses();

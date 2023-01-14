@@ -32,6 +32,26 @@ const connectionFunctions = {
         resolve(result);
       });
     }),
+  getAllExpensesByCategory: (category) =>
+    new Promise((resolve, reject) => {
+      const selectQuery = 'SELECT * FROM expenses WHERE category=?;';
+      connection.query(selectQuery, category, (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
+  getAllExpensesByCategoryAndShop: (category, shop) =>
+    new Promise((resolve, reject) => {
+      const selectQuery = 'SELECT * FROM expenses WHERE category=? AND shop=?;';
+      connection.query(selectQuery, [category, shop], (err, result) => {
+        if (err) {
+          reject(err);
+        }
+        resolve(result);
+      });
+    }),
   getAllExpensesByMonthId: (id) =>
     new Promise((resolve, reject) => {
       const selectQuery = 'SELECT * FROM expenses WHERE MONTH(date)=?;';
@@ -42,10 +62,10 @@ const connectionFunctions = {
         resolve(result);
       });
     }),
-  getAllExpensesByShop: (shopName) =>
+  getAllExpensesByShop: (shop) =>
     new Promise((resolve, reject) => {
       const selectQuery = 'SELECT * FROM expenses WHERE shop=?;';
-      connection.query(selectQuery, shopName, (err, result) => {
+      connection.query(selectQuery, shop, (err, result) => {
         if (err) {
           reject(err);
         }
