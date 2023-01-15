@@ -70,10 +70,11 @@ On project root run: `npm run test`
 (Note: sortAmount and sortDate tests only work on default data so if you modify/manipulate data run tests first.)
 
 ## Self evaluation
-
+```
 Design: ~15
 Execution: 30
 Requirements Satisfaction: ~15-20
 Coding Style: ~15-19
 Documentation: 11-14
 Bonus Credit: 0-5 (total amount of the retrieved list of expenses)
+```
