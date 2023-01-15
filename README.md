@@ -1,9 +1,20 @@
-# 4A00EZ62 Backend Development
+# 4A00EZ62 Backend Development - Final Project
 
-# Final Project - Aleksi Lahtinen
+## Project topic
 
-## Topic
+Create an application for tracking your personal expenses.
 
-### General Project
+## API URL and endpoints
 
-Most of us want to know where our money goes. You now have the chance to create a solution to that question. Create an application for tracking your personal expenses.
+URL: https://expense-api-g1wn.onrender.com/api/expenses/
+
+Endpoints:
+GET /api/expenses
+POST /api/expenses
+PUT /api/expenses
+DELETE /api/expenses/{id}
+GET /api/expenses/month/{monthId}
+
+## API Reference
+
+Swagger documentation for API: https://tiko-4a00ez62.github.io/2022-wk49-final-project-Allu101/#/expenses/get_expenses
