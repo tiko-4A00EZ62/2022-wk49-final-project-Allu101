@@ -64,3 +64,5 @@ INSERT INTO expenses (date, amount, category, shop) VALUES ("2023-03-24 08:19:00
 ## Tests
 
 On project root run: `npm run test`
+
+(Note: sortAmount and sortDate tests only work on default data so if you modify/manipulate data run tests first.)
