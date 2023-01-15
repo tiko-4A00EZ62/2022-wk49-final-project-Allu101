@@ -4,7 +4,7 @@ info:
   title: Expense API
   description: API to handle own expenses
 servers:
-  - url: https://localhost/api/
+  - url: https://expense-api-g1wn.onrender.com/api/
 tags:
   - name: expenses
 paths:
@@ -29,24 +29,16 @@ paths:
             type: string
         - name: sortAmount
           in: query
-          description: Sorts expenses order by amount
+          description: Sorts expenses order by amount (asc or desc)
           required: false
           schema:
             type: string
-            default: asc
-            enum:
-              - asc
-              - desc
         - name: sortDate
           in: query
-          description: Sorts expenses order by date
+          description: Sorts expenses order by date (asc or desc)
           required: false
           schema:
             type: string
-            default: asc
-            enum:
-              - asc
-              - desc
       responses:
         '200':
           description: Successful response
@@ -63,7 +55,6 @@ paths:
                     type: integer
                 items:
                   type: array
-
         '500':
           $ref: '#/components/responses/500Error'
     post:
@@ -171,24 +162,16 @@ paths:
             type: string
         - name: sortAmount
           in: query
-          description: Sorts expenses order by amount
+          description: Sorts expenses order by amount (asc or desc)
           required: false
           schema:
             type: string
-            default: asc
-            enum:
-              - asc
-              - desc
         - name: sortDate
           in: query
-          description: Sorts expenses order by date
+          description: Sorts expenses order by date (asc or desc)
           required: false
           schema:
             type: string
-            default: asc
-            enum:
-              - asc
-              - desc
       responses:
         '200':
           description: Successful response

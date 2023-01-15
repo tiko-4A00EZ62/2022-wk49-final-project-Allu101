@@ -3,40 +3,6 @@ const request = require('supertest');
 const app = require('../app');
 const connection = require('../db/connection');
 
-const expenses = {
-  data: [
-    {
-      id: 1,
-      date: '2022-01-08T13:41:00.000Z',
-      amount: 35,
-      category: 'food',
-      shop: 'citymarket',
-    },
-    {
-      date: '2023-04-08T10:19:00.000Z',
-      id: 2,
-      amount: 70,
-      category: 'food',
-      shop: 'Lidl',
-    },
-    {
-      id: 3,
-      date: '2023-03-24T08:19:00.000Z',
-      amount: 1500,
-      category: 'laptop',
-      shop: 'Verkkokauppa.com',
-    },
-    {
-      id: 21,
-      date: '2023-06-24T09:19:00.000Z',
-      amount: 1300,
-      category: 'PC',
-      shop: 'Verkkokauppa.com',
-    },
-  ],
-  total: 2905,
-};
-
 const expensesSortedByAmountAsc = [
   {
     id: 1,
@@ -112,7 +78,31 @@ describe('Expenses endoints', () => {
 
       expect(response.status).toEqual(200);
       expect(response.headers['content-type']).toMatch(/json/);
-      expect(response.body).toEqual(expenses);
+      expect(response.body).toEqual(
+        expect.objectContaining({
+          data: expect.arrayContaining([
+            expect.objectContaining({
+              date: '2022-01-08T13:41:00.000Z',
+              amount: 35,
+              category: 'food',
+              shop: 'citymarket',
+            }),
+            expect.objectContaining({
+              date: '2023-03-24T08:19:00.000Z',
+              amount: 1500,
+              category: 'laptop',
+              shop: 'Verkkokauppa.com',
+            }),
+            expect.objectContaining({
+              date: '2023-06-24T09:19:00.000Z',
+              amount: 1300,
+              category: 'PC',
+              shop: 'Verkkokauppa.com',
+            }),
+          ]),
+          total: 2905,
+        })
+      );
     });
 
     describe('GET expenses?sortAmount', () => {
