@@ -18,6 +18,8 @@ DELETE /api/expenses/{id}
 GET /api/expenses/month/{monthId}
 ```
 
+(Note: if render service has spun down the first request may have a 20-30s delay)
+
 ## API Reference
 
 Swagger documentation for API: https://tiko-4a00ez62.github.io/2022-wk49-final-project-Allu101/#/expenses/get_expenses
@@ -66,3 +68,12 @@ INSERT INTO expenses (date, amount, category, shop) VALUES ("2023-03-24 08:19:00
 On project root run: `npm run test`
 
 (Note: sortAmount and sortDate tests only work on default data so if you modify/manipulate data run tests first.)
+
+## Self evaluation
+
+Design: ~15
+Execution: 30
+Requirements Satisfaction: ~15-20
+Coding Style: ~15-19
+Documentation: 11-14
+Bonus Credit: 0-5 (total amount of the retrieved list of expenses)
